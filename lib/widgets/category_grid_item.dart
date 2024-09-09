@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/category.dart';
 
+//Teil von CategoriesScreen
 class CategoryGridItem extends StatelessWidget {
   const CategoryGridItem({required this.category, required this.navigateMealsScreen, super.key});
 

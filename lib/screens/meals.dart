@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
   const MealsScreen({super.key, required this.title, required this.meals});
@@ -7,15 +8,23 @@ class MealsScreen extends StatelessWidget {
   final String title;
   final List<Meal> meals;
 
-  ListView _content() {
-    return ListView.builder(
-      itemCount: meals.length,
-      itemBuilder: (ctx, index) => Text(
-        meals[index].title,
-        style:
-            Theme.of(ctx).textTheme.titleLarge!.copyWith(color: Colors.white),
-      ),
-    );
+  Widget _content(BuildContext context) {
+    if (meals.isEmpty) {
+      return Center(
+        child: Text(
+          'No meals!',
+          style: Theme.of(context)
+              .textTheme
+              .titleLarge!
+              .copyWith(color: Colors.white),
+        ),
+      );
+    } else {
+      return ListView.builder(
+        itemCount: meals.length,
+        itemBuilder: (ctx, index) => MealItem(meal: meals[index]),
+      );
+    }
   }
 
   @override
@@ -24,17 +33,7 @@ class MealsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(title),
       ),
-      body: meals.isEmpty
-          ? Center(
-              child: Text(
-                'No meals!',
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: Colors.white),
-              ),
-            )
-          : _content(),
+      body: _content(context),
     );
   }
 }

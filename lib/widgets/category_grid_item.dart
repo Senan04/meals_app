@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:meals/models/category.dart';
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({required this.category, super.key});
+  const CategoryGridItem({required this.category, required this.navigateMealsScreen, super.key});
 
   final Category category;
+  final void Function() navigateMealsScreen;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: navigateMealsScreen,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(16), //nur wenn gedrückt
       child: Container(

@@ -66,7 +66,31 @@ class MealItem extends StatelessWidget {
                       height: 12,
                     ),
                     Row(
-                      children: [],
+                      children: [
+                        const Icon(Icons.alarm, size: 17),
+                        Text(
+                          '${meal.duration.toString()} min',
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.lock_outlined, size: 17),
+                        Text(
+                          meal.complexity.name.replaceFirst(
+                            meal.complexity.name[0],
+                            meal.complexity.name[0].toUpperCase(),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                        const Spacer(),
+                        const Icon(Icons.euro, size: 17),
+                        Text(
+                          meal.affordability.name.replaceFirst(
+                            meal.affordability.name[0],
+                            meal.affordability.name[0].toUpperCase(),
+                          ),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ],
                     ),
                   ],
                 ),

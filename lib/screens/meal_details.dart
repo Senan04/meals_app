@@ -26,9 +26,31 @@ class MealDetailsScreen extends StatelessWidget {
           Text(
             'Ingredients',
             style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onSurface,
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
                 ),
           ),
+          for (final ingredient in meal.ingredients)
+            Text(
+              ingredient,
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+            ),
+          const SizedBox(
+            height: 24,
+          ),
+          Text(
+            'Instructions',
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
+                  fontWeight: FontWeight.bold,
+                ),
+          ),
+          for (int i = 0; i < meal.steps.length; i++)
+            Text(
+              '${i + 1}. ${meal.steps[i]}',
+              style: TextStyle(color: Theme.of(context).colorScheme.onSurface),
+              textAlign: TextAlign.center,
+            ),
         ],
       ),
     );

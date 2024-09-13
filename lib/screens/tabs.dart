@@ -15,10 +15,14 @@ class _TabsScreenState extends State<TabsScreen> {
   var _selectedPageTitle = 'Categories';
   final List<Meal> favoriteMeals = [];
 
-  void _editFavoriteStatus(){
-    throw UnimplementedError();
+  void _editFavoriteStatus(Meal meal) {
+    setState(() {
+      favoriteMeals.contains(meal)
+          ? favoriteMeals.remove(meal)
+          : favoriteMeals.add(meal);
+    });
   }
-  
+
   void _selectPage(final index) {
     setState(() {
       _selectedPage = index;
@@ -28,10 +32,15 @@ class _TabsScreenState extends State<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    Widget activeWidget = const CategoriesScreen();
+    Widget activeWidget = CategoriesScreen(
+      editFavoriteStatus: _editFavoriteStatus,
+    );
 
     if (_selectedPage == 1) {
-      activeWidget = MealsScreen(meals: favoriteMeals);
+      activeWidget = MealsScreen(
+        meals: favoriteMeals,
+        editFavoriteStatus: _editFavoriteStatus,
+      );
     }
 
     return Scaffold(

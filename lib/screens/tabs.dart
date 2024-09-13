@@ -15,12 +15,33 @@ class _TabsScreenState extends State<TabsScreen> {
   var _selectedPageTitle = 'Categories';
   final List<Meal> favoriteMeals = [];
 
+  void _infoMessage(String message, Meal? meal) {
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+      action: meal != null
+          ? SnackBarAction(
+              label: 'Undo',
+              onPressed: () => setState(() {
+                favoriteMeals.add(meal);
+              }),
+            )
+          : null,
+    ));
+  }
+
   void _editFavoriteStatus(Meal meal) {
-    setState(() {
-      favoriteMeals.contains(meal)
-          ? favoriteMeals.remove(meal)
-          : favoriteMeals.add(meal);
-    });
+    if (favoriteMeals.contains(meal)) {
+      setState(() {
+        favoriteMeals.remove(meal);
+      });
+      _infoMessage('Meal removed from favorites', meal);
+    } else {
+      setState(() {
+        favoriteMeals.add(meal);
+      });
+      _infoMessage('Meal added to favorites', null);
+    }
   }
 
   void _selectPage(final index) {

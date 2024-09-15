@@ -52,6 +52,17 @@ class _TabsScreenState extends State<TabsScreen> {
     });
   }
 
+  void _setScreen(final String id) {
+    setState(() {
+      switch (id) {
+        case 'filter':
+          break;
+        default:
+          Navigator.of(context).pop();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget activeWidget = CategoriesScreen(
@@ -69,7 +80,7 @@ class _TabsScreenState extends State<TabsScreen> {
       appBar: AppBar(
         title: Text(_selectedPageTitle),
       ),
-      drawer: const MainDrawer(),
+      drawer: MainDrawer(selectPage: _setScreen),
       body: activeWidget,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPage,

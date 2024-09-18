@@ -17,17 +17,18 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         children: [
           DrawerHeader(
-            padding: const EdgeInsets.only(top: 50),
-            child: Text(
-              'Flavor Fusion',
-              style: GoogleFonts.dancingScript(
-                color: isDarkMode
-                    ? const Color.fromARGB(218, 255, 255, 255)
-                    : Colors.black54,
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 4,
-                wordSpacing: 5,
+            child: Center(
+              child: Text(
+                'Flavor Fusion',
+                style: GoogleFonts.dancingScript(
+                  color: isDarkMode
+                      ? const Color.fromARGB(218, 255, 255, 255)
+                      : Colors.black54,
+                  fontSize: 30,
+                  fontWeight: FontWeight.bold,
+                  letterSpacing: 4,
+                  wordSpacing: 5,
+                ),
               ),
             ),
           ),
@@ -39,11 +40,11 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.filter_list),
             title: const Text('Filter'),
-            onTap: ()  => selectPage('filter'),
+            onTap: () => selectPage('filter'),
           ),
           const Spacer(),
           Container(
-            margin: const  EdgeInsets.only(bottom: 50),
+            margin: const EdgeInsets.only(bottom: 50),
             color: const Color.fromARGB(134, 56, 56, 56),
             child: const ListTile(
               leading: Icon(Icons.dark_mode_outlined),
@@ -56,3 +57,45 @@ class MainDrawer extends StatelessWidget {
     );
   }
 }
+
+//Alternative mit Stateful Widget und eignem StateManagement:
+ // return NavigationDrawer(
+    //   backgroundColor: Theme.of(context).colorScheme.surface,
+    //   //elevation: 10,
+    //   children: [
+    //     DrawerHeader(
+    //       child: Center(
+    //         child: Text(
+    //           'Flavor Fusion',
+    //           style: GoogleFonts.dancingScript(
+    //             color: isDarkMode
+    //                 ? const Color.fromARGB(218, 255, 255, 255)
+    //                 : Colors.black54,
+    //             fontSize: 30,
+    //             fontWeight: FontWeight.bold,
+    //             letterSpacing: 4,
+    //             wordSpacing: 5,
+    //           ),
+    //         ),
+    //       ),
+    //     ),
+    //     const NavigationDrawerDestination(
+    //       icon: Icon(Icons.restaurant),
+    //       label: Text('Meals'),
+    //     ),
+    //     const NavigationDrawerDestination(
+    //       icon: Icon(Icons.filter_list),
+    //       label: Text('Filter'),
+    //     ),
+    //     const Divider(),
+    //     Container(
+    //       margin: const EdgeInsets.only(top: 50),
+    //       color: const Color.fromARGB(134, 56, 56, 56),
+    //       child: const ListTile(
+    //         leading: Icon(Icons.dark_mode_outlined),
+    //         title: Text('Dark Mode'),
+    //         trailing: ThemeSwitch(),
+    //       ),
+    //     ),
+    //   ],
+    // );

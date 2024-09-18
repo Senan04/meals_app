@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/widgets/meal_short_infos.dart';
 import 'package:transparent_image/transparent_image.dart';
 
 //Teil von MealsScreen
@@ -27,9 +28,7 @@ class MealItem extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       elevation: 10,
       child: InkWell(
-        onTap: () {
-          navigateMealDetails();
-        },
+        onTap: () => navigateMealDetails(),
         child: Stack(
           children: [
             FadeInImage(
@@ -67,28 +66,25 @@ class MealItem extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        const Icon(Icons.alarm, size: 17),
-                        Text(
-                          '${meal.duration.toString()} min',
-                          style: const TextStyle(color: Colors.white),
+                        MealShortInfos(
+                          icon: Icons.alarm,
+                          label: '${meal.duration.toString()} min',
                         ),
                         const Spacer(),
-                        const Icon(Icons.lock_outlined, size: 17),
-                        Text(
-                          meal.complexity.name.replaceFirst(
+                        MealShortInfos(
+                          icon: Icons.lock_outlined,
+                          label: meal.complexity.name.replaceFirst(
                             meal.complexity.name[0],
                             meal.complexity.name[0].toUpperCase(),
                           ),
-                          style: const TextStyle(color: Colors.white),
                         ),
                         const Spacer(),
-                        const Icon(Icons.euro, size: 17),
-                        Text(
-                          meal.affordability.name.replaceFirst(
+                        MealShortInfos(
+                          icon: Icons.euro,
+                          label: meal.affordability.name.replaceFirst(
                             meal.affordability.name[0],
                             meal.affordability.name[0].toUpperCase(),
                           ),
-                          style: const TextStyle(color: Colors.white),
                         ),
                       ],
                     ),

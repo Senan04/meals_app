@@ -10,6 +10,8 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var isDarkMode = Theme.of(context).brightness == Brightness.dark;
+
     return Drawer(
       backgroundColor: Theme.of(context).colorScheme.surface,
       child: Column(
@@ -19,7 +21,9 @@ class MainDrawer extends StatelessWidget {
             child: Text(
               'Flavor Fusion',
               style: GoogleFonts.dancingScript(
-                color: const Color.fromARGB(218, 255, 255, 255),
+                color: isDarkMode
+                    ? const Color.fromARGB(218, 255, 255, 255)
+                    : Colors.black54,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 4,

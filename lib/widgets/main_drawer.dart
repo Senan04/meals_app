@@ -4,9 +4,9 @@ import 'package:meals/widgets/theme_switch.dart';
 
 //Teil von TabsScreen
 class MainDrawer extends StatelessWidget {
-  const MainDrawer({super.key, required this.selectPage});
+  const MainDrawer({super.key, required this.setScreen});
 
-  final void Function(String) selectPage;
+  final void Function(String) setScreen;
 
   @override
   Widget build(BuildContext context) {
@@ -35,12 +35,12 @@ class MainDrawer extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.restaurant),
             title: const Text('Meals'),
-            onTap: () => selectPage('meals'),
+            onTap: () => setScreen('meals'),
           ),
           ListTile(
             leading: const Icon(Icons.filter_list),
             title: const Text('Filter'),
-            onTap: () => selectPage('filter'),
+            onTap: () => setScreen('filter'),
           ),
           const Spacer(),
           Container(

@@ -6,18 +6,20 @@ import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/category_grid_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  const CategoriesScreen({super.key, required this.editFavoriteStatus});
+  const CategoriesScreen({super.key, required this.editFavoriteStatus, required this.currentMeals});
 
   final void Function(Meal meal) editFavoriteStatus;
+  final List<Meal> currentMeals;
 
   void _navigateMealsScreen(BuildContext context, Category category) {
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (ctx) => MealsScreen(
           title: category.title,
-          meals: dummyMeals
+          meals: currentMeals
               .where((meal) => meal.categories.contains(category.id))
-              .toList(), editFavoriteStatus: editFavoriteStatus,
+              .toList(),
+          editFavoriteStatus: editFavoriteStatus,
         ),
       ),
     );
@@ -26,21 +28,21 @@ class CategoriesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView(
-        padding: const EdgeInsets.all(24),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1.5,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: availableCategories
-            .map((category) => CategoryGridItem(
-                  category: category,
-                  navigateMealsScreen: () {
-                    _navigateMealsScreen(context, category);
-                  },
-                ))
-            .toList(),
-      );
+      padding: const EdgeInsets.all(24),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.5,
+        crossAxisSpacing: 20,
+        mainAxisSpacing: 20,
+      ),
+      children: availableCategories
+          .map((category) => CategoryGridItem(
+                category: category,
+                navigateMealsScreen: () {
+                  _navigateMealsScreen(context, category);
+                },
+              ))
+          .toList(),
+    );
   }
 }

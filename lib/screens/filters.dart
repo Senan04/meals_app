@@ -4,27 +4,38 @@ import 'package:meals/screens/tabs.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
 class FiltersScreen extends StatefulWidget {
-  const FiltersScreen({super.key});
+  const FiltersScreen({super.key, required this.filterSwitches});
 
+  final Map<Filters, bool>? filterSwitches;
 
   @override
   State<FiltersScreen> createState() => _FiltersScreenState();
 }
 
+enum Filters {
+  glutenFree,
+  lactoseFree,
+  vegetarian,
+  vegan,
+}
+
 class _FiltersScreenState extends State<FiltersScreen> {
-  var _glutenSwitch = false;
-  var _lactoseSwitch = false;
-  var _vegetarianSwitch = false;
-  var _veganSwitch = false;
+  late Map<Filters, bool> currentFilters;
+
+  @override
+  void initState() {
+    super.initState();
+    currentFilters = widget.filterSwitches ?? kInitialFilters;
+  }
 
   void _setScreen(final String id) {
     setState(() {
       switch (id) {
         case 'meals':
           Navigator.of(context).pop();
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (ctx) => const TabsScreen()),
-          );
+          Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (ctx) => TabsScreen(filterSwitches: currentFilters),
+          ));
           break;
         default:
           Navigator.of(context).pop();
@@ -39,77 +50,83 @@ class _FiltersScreenState extends State<FiltersScreen> {
         title: const Text('Filters'),
       ),
       drawer: MainDrawer(setScreen: _setScreen),
-      body: Column(
-        children: [
-          SwitchListTile(
-            value: _glutenSwitch,
-            onChanged: (newStatus) => setState(() {
-              _glutenSwitch = newStatus;
-            }),
-            title: Text(
-              'Gluten-free',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+      body: PopScope(
+        canPop: false,
+        onPopInvokedWithResult: (didPop, result) {
+          if (didPop) return;
+        },
+        child: Column(
+          children: [
+            SwitchListTile(
+              value: currentFilters[Filters.glutenFree]!,
+              onChanged: (newStatus) => setState(() {
+                currentFilters[Filters.glutenFree] = newStatus;
+              }),
+              title: Text(
+                'Gluten-free',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              subtitle: Text(
+                'Only show gluten-free Meals',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              secondary: const Icon(FontAwesomeIcons.wheatAwn),
             ),
-            subtitle: Text(
-              'Only show gluten-free Meals',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+            SwitchListTile(
+              value: currentFilters[Filters.lactoseFree]!,
+              onChanged: (newStatus) => setState(() {
+                currentFilters[Filters.lactoseFree] = newStatus;
+              }),
+              title: Text(
+                'Lactose-free',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              subtitle: Text(
+                'Only show lactose-free Meals',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              secondary: const Icon(FontAwesomeIcons.glassWater),
             ),
-            secondary: const Icon(FontAwesomeIcons.wheatAwn),
-          ),
-          SwitchListTile(
-            value: _lactoseSwitch,
-            onChanged: (newStatus) => setState(() {
-              _lactoseSwitch = newStatus;
-            }),
-            title: Text(
-              'Lactose-free',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+            SwitchListTile(
+              value: currentFilters[Filters.vegetarian]!,
+              onChanged: (newStatus) => setState(() {
+                currentFilters[Filters.vegetarian] = newStatus;
+              }),
+              title: Text(
+                'Vegetarian',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              subtitle: Text(
+                'Only show vegetarian Meals',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              secondary: const Icon(FontAwesomeIcons.leaf),
             ),
-            subtitle: Text(
-              'Only show lactose-free Meals',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
+            SwitchListTile(
+              value: currentFilters[Filters.vegan]!,
+              onChanged: (newStatus) => setState(() {
+                currentFilters[Filters.vegan] = newStatus;
+              }),
+              title: Text(
+                'Vegan',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              subtitle: Text(
+                'Only show vegan Meals',
+                style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimaryContainer),
+              ),
+              secondary: const Icon(FontAwesomeIcons.seedling),
             ),
-            secondary: const Icon(FontAwesomeIcons.glassWater),
-          ),
-          SwitchListTile(
-            value: _vegetarianSwitch,
-            onChanged: (newStatus) => setState(() {
-              _vegetarianSwitch = newStatus;
-            }),
-            title: Text(
-              'Vegetarian',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
-            ),
-            subtitle: Text(
-              'Only show vegetarian Meals',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
-            ),
-            secondary: const Icon(FontAwesomeIcons.leaf),
-          ),
-          SwitchListTile(
-            value: _veganSwitch,
-            onChanged: (newStatus) => setState(() {
-              _veganSwitch = newStatus;
-            }),
-            title: Text(
-              'Vegan',
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
-            ),
-            subtitle: Text(
-              'Only show vegan Meals',
-              style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimaryContainer),
-            ),
-            secondary: const Icon(FontAwesomeIcons.seedling),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

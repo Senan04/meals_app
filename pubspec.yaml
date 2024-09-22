@@ -9,6 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_riverpod: ^2.5.1
   font_awesome_flutter: ^10.7.0
   google_fonts: ^6.2.1
   transparent_image: ^2.0.1

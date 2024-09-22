@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/providers/favorites_provider.dart';
 import 'package:meals/screens/categories.dart';
 import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
@@ -8,54 +10,24 @@ import 'package:meals/widgets/main_drawer.dart';
 
 final kInitialFilters = {for (var filter in Filters.values) filter: false};
 
-class TabsScreen extends StatefulWidget {
+class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key, required this.filterSwitches});
 
   final Map<Filters, bool>? filterSwitches;
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  ConsumerState<TabsScreen> createState() => _TabsScreenState();
 }
 
-class _TabsScreenState extends State<TabsScreen> {
+class _TabsScreenState extends ConsumerState<TabsScreen> {
   var _selectedPage = 0;
   var _selectedPageTitle = 'Categories';
-  final List<Meal> favoriteMeals = [];
   late Map<Filters, bool> currentFilters;
 
   @override
   void initState() {
     super.initState();
     currentFilters = widget.filterSwitches ?? kInitialFilters;
-  }
-
-  void _infoMessage(String message, Meal? meal) {
-    ScaffoldMessenger.of(context).clearSnackBars();
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-      action: meal != null
-          ? SnackBarAction(
-              label: 'Undo',
-              onPressed: () => setState(() {
-                favoriteMeals.add(meal);
-              }),
-            )
-          : null,
-    ));
-  }
-
-  void _editFavoriteStatus(Meal meal) {
-    if (favoriteMeals.contains(meal)) {
-      setState(() {
-        favoriteMeals.remove(meal);
-      });
-      _infoMessage('Meal removed from favorites', meal);
-    } else {
-      setState(() {
-        favoriteMeals.add(meal);
-      });
-      _infoMessage('Meal added to favorites', null);
-    }
   }
 
   void _selectPage(final index) {
@@ -101,14 +73,13 @@ class _TabsScreenState extends State<TabsScreen> {
   @override
   Widget build(BuildContext context) {
     Widget activeWidget = CategoriesScreen(
-      editFavoriteStatus: _editFavoriteStatus,
       currentMeals: _filterCurrentMeals(currentFilters),
     );
 
     if (_selectedPage == 1) {
+      final favoriteMeals = ref.watch(favoriteMealsProvider);
       activeWidget = MealsScreen(
         meals: favoriteMeals,
-        editFavoriteStatus: _editFavoriteStatus,
       );
     }
 

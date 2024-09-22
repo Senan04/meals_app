@@ -1,21 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/meal.dart';
+import 'package:meals/providers/favorites_provider.dart';
 
-class MealDetailsScreen extends StatelessWidget {
-  const MealDetailsScreen({super.key, required this.meal, required this.editFavoriteStatus});
+class MealDetailsScreen extends ConsumerWidget {
+  const MealDetailsScreen({super.key, required this.meal});
 
   final Meal meal;
-  final void Function(Meal meal) editFavoriteStatus;
+
+  void _infoMessage(BuildContext ctx, WidgetRef ref, Meal? meal) {
+    final message = meal != null ? 'Meal was removed' : 'Meal was added';
+    ScaffoldMessenger.of(ctx).clearSnackBars();
+    ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
+      content: Text(message),
+      action: meal != null
+          ? SnackBarAction(
+              label: 'Undo',
+              onPressed: () => ref
+                  .read(favoriteMealsProvider.notifier)
+                  .toggleFavoriteStatus(meal),
+            )
+          : null,
+    ));
+  }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
           IconButton(
             onPressed: () {
-              editFavoriteStatus(meal);
+              final test = ref
+                  .read(favoriteMealsProvider.notifier)
+                  .toggleFavoriteStatus(meal);
+              if (test) {
+                _infoMessage(context, ref, null);
+              } else {
+                _infoMessage(context, ref, meal);
+              }
             },
             icon: const Icon(Icons.star),
           ),

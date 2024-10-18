@@ -3,17 +3,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/models/meal.dart';
 import 'package:meals/providers/favorites_provider.dart';
+import 'package:meals/providers/filters_provider.dart';
 import 'package:meals/screens/categories.dart';
-import 'package:meals/screens/filters.dart';
 import 'package:meals/screens/meals.dart';
 import 'package:meals/widgets/main_drawer.dart';
 
-final kInitialFilters = {for (var filter in Filters.values) filter: false};
-
 class TabsScreen extends ConsumerStatefulWidget {
-  const TabsScreen({super.key, required this.filterSwitches});
-
-  final Map<Filters, bool>? filterSwitches;
+  const TabsScreen({super.key});
 
   @override
   ConsumerState<TabsScreen> createState() => _TabsScreenState();
@@ -27,7 +23,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
   @override
   void initState() {
     super.initState();
-    currentFilters = widget.filterSwitches ?? kInitialFilters;
+    currentFilters = ref.read(filtersProvider);
   }
 
   void _selectPage(final index) {
@@ -35,21 +31,6 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       _selectedPage = index;
       _selectedPageTitle = index == 0 ? 'Categories' : 'Favorites';
     });
-  }
-
-  void _setScreen(final String id) {
-    switch (id) {
-      case 'filter':
-        Navigator.of(context).pop();
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (ctx) => FiltersScreen(filterSwitches: currentFilters),
-          ),
-        );
-        break;
-      default:
-        Navigator.of(context).pop();
-    }
   }
 
   List<Meal> _filterCurrentMeals(Map<Filters, bool> filterSwitches) {
@@ -87,7 +68,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       appBar: AppBar(
         title: Text(_selectedPageTitle),
       ),
-      drawer: MainDrawer(setScreen: _setScreen),
+      drawer: MainDrawer(),
       body: activeWidget,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPage,

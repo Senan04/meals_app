@@ -8,13 +8,16 @@ class MealDetailsScreen extends ConsumerWidget {
 
   final Meal meal;
 
+  //TODO add undo button
   void _infoMessage(Meal? meal, BuildContext ctx) {
     final mealAdded = meal == null;
     ScaffoldMessenger.of(ctx).clearSnackBars();
     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-      content: Text(mealAdded
-          ? 'Meal was added to favorites'
-          : 'Meal was removed from favorites'),
+      content: Text(
+        mealAdded
+            ? 'Meal was added to favorites'
+            : 'Meal was removed from favorites',
+      ),
       // action: mealAdded
       //     ? null
       //     : SnackBarAction(

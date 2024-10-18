@@ -41,7 +41,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       appBar: AppBar(
         title: Text(_selectedPageTitle),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: activeWidget,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedPage,

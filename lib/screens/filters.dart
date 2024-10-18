@@ -15,7 +15,7 @@ class FiltersScreen extends ConsumerWidget {
       appBar: AppBar(
         title: const Text('Filters'),
       ),
-      drawer: MainDrawer(),
+      drawer: const MainDrawer(),
       body: Column(
         children: [
           SwitchListTile(

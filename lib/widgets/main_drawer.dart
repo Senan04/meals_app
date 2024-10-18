@@ -14,14 +14,14 @@ class MainDrawer extends StatelessWidget {
         Navigator.of(ctx).pop();
         Navigator.of(ctx).pushReplacement(
           MaterialPageRoute(
-            builder: (ctx) => FiltersScreen(),
+            builder: (ctx) => const FiltersScreen(),
           ),
         );
         break;
       case 'meals':
         Navigator.of(ctx).pop();
         Navigator.of(ctx).pushReplacement(MaterialPageRoute(
-          builder: (ctx) => TabsScreen(),
+          builder: (ctx) => const TabsScreen(),
         ));
       default:
         Navigator.of(ctx).pop();

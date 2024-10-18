@@ -6,7 +6,7 @@ import 'package:meals/screens/tabs.dart';
 final theme = ThemeData(
   colorScheme: ColorScheme.fromSeed(
     brightness: Brightness.dark,
-    seedColor: const Color.fromARGB(255, 131, 57, 0),
+    seedColor: const Color.fromARGB(255, 61, 194, 194),
   ),
   textTheme: GoogleFonts.latoTextTheme(),
 );
@@ -22,7 +22,9 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: theme,
-      home: const TabsScreen(filterSwitches: null,),
+      home: const TabsScreen(
+        filterSwitches: null,
+      ),
     );
   }
 }

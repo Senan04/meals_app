@@ -8,19 +8,21 @@ class MealDetailsScreen extends ConsumerWidget {
 
   final Meal meal;
 
-  void _infoMessage(BuildContext ctx, WidgetRef ref, Meal? meal) {
-    final message = meal != null ? 'Meal was removed' : 'Meal was added';
+  void _infoMessage(Meal? meal, BuildContext ctx) {
+    final mealAdded = meal == null;
     ScaffoldMessenger.of(ctx).clearSnackBars();
     ScaffoldMessenger.of(ctx).showSnackBar(SnackBar(
-      content: Text(message),
-      action: meal != null
-          ? SnackBarAction(
-              label: 'Undo',
-              onPressed: () => ref
-                  .read(favoriteMealsProvider.notifier)
-                  .toggleFavoriteStatus(meal),
-            )
-          : null,
+      content: Text(mealAdded
+          ? 'Meal was added to favorites'
+          : 'Meal was removed from favorites'),
+      // action: mealAdded
+      //     ? null
+      //     : SnackBarAction(
+      //         label: 'Undo',
+      //         onPressed: () => ref
+      //             .read(favoriteMealsProvider.notifier)
+      //             .toggleFavoriteStatus(meal),
+      //       ),
     ));
   }
 
@@ -32,13 +34,13 @@ class MealDetailsScreen extends ConsumerWidget {
         actions: [
           IconButton(
             onPressed: () {
-              final test = ref
+              final mealAdded = ref
                   .read(favoriteMealsProvider.notifier)
                   .toggleFavoriteStatus(meal);
-              if (test) {
-                _infoMessage(context, ref, null);
+              if (mealAdded) {
+                _infoMessage(null, context);
               } else {
-                _infoMessage(context, ref, meal);
+                _infoMessage(meal, context);
               }
             },
             icon: const Icon(Icons.star),

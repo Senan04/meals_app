@@ -10,6 +10,8 @@ class MealDetailsScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isFavorite = ref.watch(favoriteMealsProvider).contains(meal);
+
     return PopScope(
       //verhindert exception, wenn versucht wird auf undo button
       //zu klicken obwohl MealDetailsScreen geschlossen
@@ -43,20 +45,31 @@ class MealDetailsScreen extends ConsumerWidget {
                   ),
                 );
               },
-              icon: ref.watch(favoriteMealsProvider).contains(meal)
-                  ? const Icon(Icons.star)
-                  : const Icon(Icons.star_border_outlined),
+              icon: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 150),
+                transitionBuilder: (child, animation) => RotationTransition(
+                  turns: Tween<double>(begin: 0.8, end: 1).animate(animation),
+                  child: child,
+                ),
+                child: Icon(
+                  isFavorite ? Icons.star : Icons.star_border_outlined,
+                  key: ValueKey(isFavorite),
+                ),
+              ),
             ),
           ],
         ),
         body: SingleChildScrollView(
           child: Column(
             children: [
-              Image.network(
-                meal.imageUrl,
-                height: 300,
-                width: double.infinity,
-                fit: BoxFit.cover,
+              Hero(
+                tag: meal.id,
+                child: Image.network(
+                  meal.imageUrl,
+                  height: 300,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ),
               ),
               const SizedBox(
                 height: 14,

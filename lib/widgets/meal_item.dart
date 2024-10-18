@@ -31,13 +31,16 @@ class MealItem extends StatelessWidget {
         onTap: () => navigateMealDetails(),
         child: Stack(
           children: [
-            FadeInImage(
-              placeholder: MemoryImage(kTransparentImage),
-              image: NetworkImage(meal.imageUrl),
-              fit: BoxFit.cover, //damit das Bild reinzoomt und alles ausfüllt
-              height: 200,
-              width: double
-                  .infinity, //so breit wie möglich, damit keine Ränder entstehen
+            Hero(
+              tag: meal.id,
+              child: FadeInImage(
+                placeholder: MemoryImage(kTransparentImage),
+                image: NetworkImage(meal.imageUrl),
+                fit: BoxFit.cover, //damit das Bild reinzoomt und alles ausfüllt
+                height: 200,
+                width: double
+                    .infinity, //so breit wie möglich, damit keine Ränder entstehen
+              ),
             ),
             Positioned(
               bottom: 0,
